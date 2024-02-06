@@ -1,6 +1,6 @@
 import React, { useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { addTodo } from '../config/redux-config/reducers/todoslice';
+import { addTodo, removeTodo } from '../config/redux-config/reducers/todoslice';
 
 const App = () => {
   const todoRef = useRef();
@@ -22,6 +22,11 @@ const App = () => {
     todoRef.current.value = ''
   }
   
+  const deleteTodo = (index)=>{
+    dispatch(removeTodo({
+      index: index
+    }))
+  }
   return (
     <>
     <h1>React Todo</h1>
@@ -30,10 +35,15 @@ const App = () => {
       <button type='submit'>AddTodo</button>
     </form>
     <ul>
-      {selector.map((item, index) =>{
-        return <li key={item.id}>{item.title}</li>
-      })}
-    </ul>
+        {selector.map((item, index) => {
+          return <li key={item.id}>{item.title}
+          <button onClick={()=>deleteTodo(index)}>delete</button>
+          <button onClick={()=>startEditing(index)}>Edit</button>
+          
+          </li>
+        })}
+
+      </ul>
     </>
     
   )
